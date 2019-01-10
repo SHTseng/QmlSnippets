@@ -27,6 +27,8 @@ Window {
             rows: 2
             columnSpacing: 20
             rowSpacing: 40
+
+            property int indexOfThisDelegate: index
             property int listX: x - iListView.contentX
 
             Repeater
@@ -37,7 +39,7 @@ Window {
                 {
                     width: 100
                     height: 100
-                    color: "red"
+                    color: "lightsteelblue"
                 }
             }
 
@@ -64,7 +66,8 @@ Window {
                 NumberAnimation
                 {
                     duration: 400
-                    to: 1
+                    from: 0;
+                    to: 1;
                     // easing.type: Easing.InQuint
                 }
             }
@@ -75,7 +78,8 @@ Window {
                 NumberAnimation
                 {
                     duration: 500
-                    to: 0
+                    from: 1;
+                    to: 0;
                     // easing.type: Easing.InQuint
                 }
             }
@@ -83,7 +87,104 @@ Window {
 
         onFlickStarted:
         {
-            console.log(currentIndex);
+            // console.log(iListView.iRectDelegate.x);
+            iRectCompLeftLoader.active = false;
+            iRectCompLeftLoader.visible = false;
+            iRectCompRightLoader.active = false;
+            iRectCompRightLoader.visible = false;
+        }
+
+        onMovementEnded:
+        {
+            console.log("Move complete");
+            iRectCompLeftLoader.active = true;
+            iRectCompLeftLoader.visible = true;
+            iRectCompRightLoader.active = true;
+            iRectCompRightLoader.visible = true;
+        }
+
+        onMovementStarted:
+        {
+        }
+
+        Loader
+        {
+            id: iRectCompLeftLoader
+            x: 175
+            y: 135
+            sourceComponent: iRectCompRight
+            active: false
+            visible: false
+        }
+
+        Loader
+        {
+            id: iRectCompRightLoader
+            x: 255
+            y: 135
+            sourceComponent: iRectCompLeft
+            active: false
+            visible: false
+        }
+
+        Component
+        {
+            id: iRectCompLeft
+            Rectangle
+            {
+                id: opacityBox
+                width: 50
+                height: 50
+                color: "mediumseagreen"
+                OpacityAnimator
+                {
+                    target: opacityBox;
+                    from: 0
+                    to: 1
+                    duration: 500
+                    running: iListView.movementEnded
+                }
+
+                XAnimator
+                {
+                    target: opacityBox;
+                    from: opacityBox.x;
+                    to: opacityBox.x - 100;
+                    duration: 500
+                    easing.type: Easing.InQuad
+                    running: iListView.movementEnded
+                }
+            }
+        }
+
+        Component
+        {
+            id: iRectCompRight
+            Rectangle
+            {
+                id: opacityBox
+                width: 50
+                height: 50
+                color: "mediumseagreen"
+                OpacityAnimator
+                {
+                    target: opacityBox;
+                    from: 0
+                    to: 1
+                    duration: 500
+                    running: iListView.movementEnded
+                }
+
+                XAnimator
+                {
+                    target: opacityBox;
+                    from: opacityBox.x;
+                    to: opacityBox.x + 100;
+                    duration: 500
+                    easing.type: Easing.InQuad
+                    running: iListView.movementEnded
+                }
+            }
         }
     }
 }
