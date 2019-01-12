@@ -23,6 +23,7 @@ Window {
         delegate: GridLayout
         {
             id: iRectDelegate
+            // anchors.centerIn: parent
             columns: 4
             rows: 2
             columnSpacing: 20
@@ -112,9 +113,15 @@ Window {
             id: iRectCompLeftLoader
             x: 175
             y: 135
-            sourceComponent: iRectCompRight
             active: false
             visible: false
+            sourceComponent: Component
+            {
+                AnimatedRectangle
+                {
+                    displacement: 100
+                }
+            }
         }
 
         Loader
@@ -122,67 +129,13 @@ Window {
             id: iRectCompRightLoader
             x: 255
             y: 135
-            sourceComponent: iRectCompLeft
             active: false
             visible: false
-        }
-
-        Component
-        {
-            id: iRectCompLeft
-            Rectangle
+            sourceComponent: Component
             {
-                id: opacityBox
-                width: 50
-                height: 50
-                color: "mediumseagreen"
-                OpacityAnimator
+                AnimatedRectangle
                 {
-                    target: opacityBox;
-                    from: 0
-                    to: 1
-                    duration: 500
-                    running: iListView.movementEnded
-                }
-
-                XAnimator
-                {
-                    target: opacityBox;
-                    from: opacityBox.x;
-                    to: opacityBox.x - 100;
-                    duration: 500
-                    easing.type: Easing.InQuad
-                    running: iListView.movementEnded
-                }
-            }
-        }
-
-        Component
-        {
-            id: iRectCompRight
-            Rectangle
-            {
-                id: opacityBox
-                width: 50
-                height: 50
-                color: "mediumseagreen"
-                OpacityAnimator
-                {
-                    target: opacityBox;
-                    from: 0
-                    to: 1
-                    duration: 500
-                    running: iListView.movementEnded
-                }
-
-                XAnimator
-                {
-                    target: opacityBox;
-                    from: opacityBox.x;
-                    to: opacityBox.x + 100;
-                    duration: 500
-                    easing.type: Easing.InQuad
-                    running: iListView.movementEnded
+                    displacement: -100
                 }
             }
         }
